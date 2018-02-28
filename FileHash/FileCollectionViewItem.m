@@ -22,12 +22,19 @@
     [super viewDidLoad];
     // Do view setup here.
 }
+- (void)awakeFromNib {
+    [super awakeFromNib];
+}
+- (void)viewDidAppear {
+    [super viewDidAppear];
+}
+
 - (void)configWithModel:(FileModel *)model {
     if (!model.isFinish) {
         
     }
     self.filePathLabel.stringValue = model.filePath;
-    self.fileMD5Label.stringValue = model.fileHash;
+    self.fileMD5Label.stringValue = model.fileHash?model.fileHash:@"";
     self.fileSizeLabel.stringValue = model.fileSize;
 }
 @end

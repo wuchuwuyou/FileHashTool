@@ -12,14 +12,13 @@
 @interface AppDelegate ()
 
 @property (nonatomic,strong) FileWindowController *file;
+
 @end
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    self.file = [[FileWindowController alloc] initWithWindowNibName:@"FileWindowController"];
-    [self.file.window makeKeyAndOrderFront:nil];
 }
 
 
