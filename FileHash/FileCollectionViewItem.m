@@ -13,7 +13,7 @@
 @property (weak) IBOutlet NSTextField *filePathLabel;
 @property (weak) IBOutlet NSTextField *fileMD5Label;
 @property (weak) IBOutlet NSTextField *fileSizeLabel;
-
+@property (weak) IBOutlet NSTextField *fileNameLabel;
 @end
 
 @implementation FileCollectionViewItem
@@ -33,8 +33,9 @@
     if (!model.isFinish) {
         
     }
-    self.filePathLabel.stringValue = model.filePath;
+    self.filePathLabel.stringValue = model.filePath?model.filePath:@"";
     self.fileMD5Label.stringValue = model.fileHash?model.fileHash:@"";
-    self.fileSizeLabel.stringValue = model.fileSize;
+    self.fileSizeLabel.stringValue = model.fileSize?model.fileSize:@"";
+    self.fileNameLabel.stringValue = model.fileName?model.fileName:@"";
 }
 @end

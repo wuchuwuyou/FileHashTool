@@ -49,7 +49,7 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     NSCollectionViewFlowLayout *layout = [[NSCollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(450.0, 81.0);
+    layout.itemSize = CGSizeMake(480.0, 120.0);
     layout.sectionInset = NSEdgeInsetsMake(10, 10, 10, 10);
     layout.minimumLineSpacing = 10;
     layout.minimumInteritemSpacing = 10;
@@ -131,13 +131,25 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     for (NSString *url in array) {
         NSError *error = nil;
+        BOOL isDir = NO;
+        BOOL isExist = [manager fileExistsAtPath:url isDirectory:&isDir];
+        if (!isExist) {
+            [self showAlertWithMessage:@"文件不存在"];
+            return;
+        }
+        if (isDir) {
+            NSString *string = [NSString stringWithFormat:@"不支持文件夹,%@",url];
+            [self showAlertWithMessage:string];
+            return;
+        }
         NSDictionary *att = [manager attributesOfItemAtPath:url error:&error];
         if (error || att == nil) {
             NSLog(@"%@",error);
+            [self showAlertWithMessage:error.localizedDescription];
             return;
         }
         NSString *fileSize = att[NSFileSize];
-        NSString *name = [[NSURL URLWithString:url] lastPathComponent];
+        NSString *name = [[NSURL fileURLWithPath:url] lastPathComponent];
         FileModel *model = [[FileModel alloc] init];
         model.filePath = url;
         model.fileName = name;
@@ -146,6 +158,22 @@
         model.isFinish = YES;
         [self.dataArray addObject:model];
     }
+    
     [self.collectionView reloadData];
+}
+
+- (void)showAlertWithMessage:(NSString *)msg {
+    NSAlert *alert = [NSAlert new];
+    [alert addButtonWithTitle:@"确定"];
+    [alert setMessageText:@"错误提示"];
+    [alert setInformativeText:msg];
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+        if(returnCode == NSAlertFirstButtonReturn){
+            NSLog(@"确定");
+        }else if(returnCode == NSAlertSecondButtonReturn){
+            NSLog(@"删除");
+        }
+    }];
 }
 @end
