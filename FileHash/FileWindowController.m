@@ -39,7 +39,8 @@
     [self initViews];
 }
 - (void)initViews {
-    [self.collectionView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
+    //kUTTypeFileURL
+    [self.collectionView registerForDraggedTypes:@[(NSString*)kUTTypeFileURL]];
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
     
